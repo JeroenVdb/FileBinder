@@ -1,10 +1,21 @@
 {
-    "All WRO files": [
-        "dsqfd",
-        "dsqfqd"
-    ],
-    "All WRO files 2": [
-        "dsqfddsf",
-        "dsqfdsfhjqd"
-    ]
+    "binders":
+	    [
+	        {
+	            "name":"title 1",
+	            "desciption":"description 1",
+                "files": ["/C/Home6", "/C/Home4"]
+	        },
+            {
+                "name":"title 3",
+	            "desciption":"description 1",
+                "files": ["/C/Home2", "/C/Home8"]
+	        },
+            {
+                "name":"title 2",
+	            "desciption":"description 1",
+                "files": ["/C/Home9", "/C/Home4"]
+	        }
+	    ]
+		
 }

@@ -1,4 +1,4 @@
-import sublime, sublime_plugin
+import sublime, sublime_plugin, json
 
 class FileBinderCommand(sublime_plugin.WindowCommand):
 
@@ -6,12 +6,17 @@ class FileBinderCommand(sublime_plugin.WindowCommand):
 
 	def run(self):
 
-		self.s = sublime.load_settings('FileBinder.sublime-settings')
+		self.show_binders()
 
-		options = ['Single file', 'Package file']
-        
-    	self.window.show_quick_panel(options, self.callback)
+	def show_binders(self):
+
+		self.s = sublime.load_settings('FileBinder.sublime-settings').get('binders')
+		binders = []
+
+		for item in self.s:
+			binders.append(item['name'])
+
+		self.window.show_quick_panel(binders, self.callback)
 
 	def callback(self, index):
-
-		print("callback")
+		print('go?')
