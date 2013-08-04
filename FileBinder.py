@@ -6,9 +6,9 @@ class FileBinderCommand(sublime_plugin.WindowCommand):
 
 	def run(self):
 
-		self.show_binders()
+		self.choose_binder()
 
-	def show_binders(self):
+	def choose_binder(self):
 
 		self.s = sublime.load_settings('FileBinder.sublime-settings').get('binders')
 		binders = []
@@ -16,7 +16,14 @@ class FileBinderCommand(sublime_plugin.WindowCommand):
 		for item in self.s:
 			binders.append(item['name'])
 
-		self.window.show_quick_panel(binders, self.callback)
+		self.window.show_quick_panel(binders, self.callback_choose_binder)
 
-	def callback(self, index):
-		print('go?')
+	def callback_choose_binder(self, index):
+		for item in self.s[index]['files']:
+			print(item)
+
+	def add_binder(self): print('add open files to binder in the settings files + ask for name')
+
+	def remove_binder(self): print('list binder like in choose_binder but other callback (delete)')
+
+	def callback_remove_binder(self): print('remove a binder from the settings file')
