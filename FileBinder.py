@@ -41,6 +41,7 @@ class AddFileBinderCommand(sublime_plugin.WindowCommand):
 
 		# reset
 		self.newBinderList = []
+		self.newPathsList = []
 
 		self.window.show_input_panel("Name your binder", "", self.on_done, None, None)
 
@@ -50,6 +51,8 @@ class AddFileBinderCommand(sublime_plugin.WindowCommand):
 		self.binders = sublime.load_settings('FileBinder.sublime-settings').get('binders')
 		for item in self.binders:
 			self.newBinderList.append(item)
+
+		print(self.window.views())
 
 		# Extend newBinderList with new binder
 		for view in self.window.views():
