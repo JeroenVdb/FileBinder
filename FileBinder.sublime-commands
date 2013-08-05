@@ -1,0 +1,6 @@
+[
+	{ "command": "add_file_binder", "caption": "FileBinder: Add this set of Files to a Binder" },
+	{ "command": "file_binder", "caption": "FileBinder: Choose a Binder" },
+	{ "command": "remove_file_binder", "caption": "FileBinder: Remove a Binder" }
+
+]

@@ -10,13 +10,16 @@ class FileBinderCommand(sublime_plugin.WindowCommand):
 
 	def choose_binder(self):
 
+		# Gather all binder names
 		self.s = sublime.load_settings('FileBinder.sublime-settings').get('binders')
-		binders = []
+		binderNameList = []
+		for item in self.s: binderNameList.append(item['name'])
 
-		for item in self.s:
-			binders.append(item['name'])
-
-		self.window.show_quick_panel(binders, self.callback_choose_binder)
+		# Choose your binder
+		if len(binderNameList) > 0:
+			self.window.show_quick_panel(binderNameList, self.callback_choose_binder)
+		else:
+			self.window.show_quick_panel(["You dont have any binders yet"], None)
 
 	def callback_choose_binder(self, index):
 
@@ -39,21 +42,58 @@ class AddFileBinderCommand(sublime_plugin.WindowCommand):
 
 		self.s = sublime.load_settings('FileBinder.sublime-settings')
 
+		# Gather existing binders in binderList
 		binders = self.s.get('binders')
-
 		for item in binders: self.binderList.append(item)
 
-		# Fill binderList with new object
+		# Extend binderList with new binder
 		for view in self.window.views():
 			self.newPathsList.append(view.file_name())
-
 		jsonStr = {"name": "" + input + "", "description": "", "files": self.newPathsList}
-
 		self.binderList.append(jsonStr)
 
+		# Save them all
+		self.s.set('binders', "")
 		self.s.set('binders', self.binderList)
 		sublime.save_settings('FileBinder.sublime-settings')
 
 	def on_change(self, input): print("change")
 
 	def on_cancel(self): print("cancel")
+
+class RemoveFileBinderCommand(sublime_plugin.WindowCommand): 
+
+	s = None
+	binderList = []
+
+	def run(self):
+
+		self.choose_binder()
+
+	def choose_binder(self):
+
+		# Gather all binder names
+		self.s = sublime.load_settings('FileBinder.sublime-settings').get('binders')
+		binderNameList = []
+		for item in self.s: binderNameList.append(item['name'])
+
+		# Choose your binder
+		if len(binderNameList) > 0:
+			self.window.show_quick_panel(binderNameList, self.callback_choose_binder)
+		else:
+			self.window.show_quick_panel(["You dont have any binders yet"], None)
+
+	def callback_choose_binder(self, index):
+
+		self.s = sublime.load_settings('FileBinder.sublime-settings').get('binders')
+
+		if not index == -1:
+
+			for i, item in enumerate(self.s):
+				if i != index:
+					self.binderList.append(item)
+
+			sublime.load_settings('FileBinder.sublime-settings').set('binders', "")
+			sublime.load_settings('FileBinder.sublime-settings').set('binders', self.binderList)
+			
+			sublime.save_settings('FileBinder.sublime-settings')

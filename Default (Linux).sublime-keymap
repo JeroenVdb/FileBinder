@@ -1,0 +1,6 @@
+[  
+    {   
+        "keys": ["ctrl+alt+b"], "command": "file_binder",
+        "keys": ["ctrl+alt+n"], "command": "add_file_binder"
+    }  
+]  

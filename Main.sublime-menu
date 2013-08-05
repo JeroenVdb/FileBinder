@@ -1,0 +1,19 @@
+[  
+	{  
+	    "id": "tools",  
+	    "children":  
+	    [  
+	        {
+	        	"id": "file_binder",
+	        	"caption": "FileBinder",
+	        	"children":
+	        	[
+					{ "command": "file_binder", "caption": "Choose a Binder" },
+	        		{ "command": "add_file_binder", "caption": "Add this set of Files to a Binder" },
+	        		{ "command": "remove_file_binder", "caption": "Remove a Binder" }
+	        	]
+	        }
+	        
+	    ]  
+	}  
+]
