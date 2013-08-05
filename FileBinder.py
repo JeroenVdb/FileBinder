@@ -14,7 +14,8 @@ class FileBinderCommand(sublime_plugin.WindowCommand):
 		# Gather all binder names
 		self.binders = sublime.load_settings('FileBinder.sublime-settings').get('binders')
 		binderNameList = []
-		for item in self.binders: binderNameList.append(item['name'])
+		for item in self.binders:
+			binderNameList.append(item['name'])
 
 		# Choose your binder
 		if len(binderNameList) > 0:
@@ -47,7 +48,8 @@ class AddFileBinderCommand(sublime_plugin.WindowCommand):
 
 		# Gather existing binders in newBinderList
 		self.binders = sublime.load_settings('FileBinder.sublime-settings').get('binders')
-		for item in self.binders: self.newBinderList.append(item)
+		for item in self.binders:
+			self.newBinderList.append(item)
 
 		# Extend newBinderList with new binder
 		for view in self.window.views():
