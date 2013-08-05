@@ -1,4 +1,4 @@
-import sublime, sublime_plugin, json
+import sublime, sublime_plugin
 
 # Open binder
 class FileBinderCommand(sublime_plugin.WindowCommand):
