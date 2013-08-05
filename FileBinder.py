@@ -36,6 +36,8 @@ class AddFileBinderCommand(sublime_plugin.WindowCommand):
 	
 	def run(self):
 
+		self.binderList = []
+
 		self.window.show_input_panel("Name your binder", "<name>", self.on_done, self.on_change, self.on_cancel)
 
 	def on_done(self, input):
@@ -67,6 +69,8 @@ class RemoveFileBinderCommand(sublime_plugin.WindowCommand):
 	binderList = []
 
 	def run(self):
+
+		self.binderList = []
 
 		self.choose_binder()
 
