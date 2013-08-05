@@ -1,21 +1,7 @@
 {
     "binders":
 	    [
-	        {
-	            "name":"title 1",
-	            "desciption":"description 1",
-                "files": ["/C/Home1", "/C/Home4"]
-	        },
-            {
-                "name":"title 3",
-	            "desciption":"description 1",
-                "files": ["/C/Home3", "/C/Home8"]
-	        },
-            {
-                "name":"title 2",
-	            "desciption":"description 1",
-                "files": ["/C/Home2", "/C/Home4"]
-	        }
+	        
 	    ]
 		
 }
