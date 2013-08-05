@@ -52,7 +52,7 @@ class AddFileBinderCommand(sublime_plugin.WindowCommand):
 		jsonStr = {"name": "" + input + "", "description": "", "files": self.newPathsList}
 		self.binderList.append(jsonStr)
 
-		# Save them all
+		# Save them all, clear first
 		self.s.set('binders', "")
 		self.s.set('binders', self.binderList)
 		sublime.save_settings('FileBinder.sublime-settings')
@@ -85,15 +85,15 @@ class RemoveFileBinderCommand(sublime_plugin.WindowCommand):
 
 	def callback_choose_binder(self, index):
 
-		self.s = sublime.load_settings('FileBinder.sublime-settings').get('binders')
-
 		if not index == -1:
 
+			# Gather all binder but the one to remove
+			self.s = sublime.load_settings('FileBinder.sublime-settings').get('binders')
 			for i, item in enumerate(self.s):
 				if i != index:
 					self.binderList.append(item)
 
+			# Save them all, clear first
 			sublime.load_settings('FileBinder.sublime-settings').set('binders', "")
 			sublime.load_settings('FileBinder.sublime-settings').set('binders', self.binderList)
-			
 			sublime.save_settings('FileBinder.sublime-settings')
