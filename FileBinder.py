@@ -1,8 +1,9 @@
 import sublime, sublime_plugin, json
 
+# Open binder
 class FileBinderCommand(sublime_plugin.WindowCommand):
 
-	s = None
+	binders = None
 
 	def run(self):
 
@@ -11,9 +12,9 @@ class FileBinderCommand(sublime_plugin.WindowCommand):
 	def choose_binder(self):
 
 		# Gather all binder names
-		self.s = sublime.load_settings('FileBinder.sublime-settings').get('binders')
+		self.binders = sublime.load_settings('FileBinder.sublime-settings').get('binders')
 		binderNameList = []
-		for item in self.s: binderNameList.append(item['name'])
+		for item in self.binders: binderNameList.append(item['name'])
 
 		# Choose your binder
 		if len(binderNameList) > 0:
@@ -25,60 +26,58 @@ class FileBinderCommand(sublime_plugin.WindowCommand):
 
 		if not index == -1:
 
-			for item in self.s[index]['files']:
+			for item in self.binders[index]['files']:
 				self.window.open_file(item)
 
+# Add binder
 class AddFileBinderCommand(sublime_plugin.WindowCommand):
 
-	s = None
-	binderList = []
+	binders = None
+	newBinderList = []
 	newPathsList = []
 	
 	def run(self):
 
-		self.binderList = []
+		# reset
+		self.newBinderList = []
 
-		self.window.show_input_panel("Name your binder", "", self.on_done, self.on_change, self.on_cancel)
+		self.window.show_input_panel("Name your binder", "", self.on_done, None, None)
 
 	def on_done(self, input):
 
-		self.s = sublime.load_settings('FileBinder.sublime-settings')
+		# Gather existing binders in newBinderList
+		self.binders = sublime.load_settings('FileBinder.sublime-settings').get('binders')
+		for item in self.binders: self.newBinderList.append(item)
 
-		# Gather existing binders in binderList
-		binders = self.s.get('binders')
-		for item in binders: self.binderList.append(item)
-
-		# Extend binderList with new binder
+		# Extend newBinderList with new binder
 		for view in self.window.views():
 			self.newPathsList.append(view.file_name())
 		jsonStr = {"name": "" + input + "", "description": "", "files": self.newPathsList}
-		self.binderList.append(jsonStr)
+		self.newBinderList.append(jsonStr)
 
 		# Save them all
-		self.s.set('binders', self.binderList)
+		sublime.load_settings('FileBinder.sublime-settings').set('binders', self.newBinderList)
 		sublime.save_settings('FileBinder.sublime-settings')
 
-	def on_change(self, input): print("change")
-
-	def on_cancel(self): print("cancel")
-
+# Remove binder
 class RemoveFileBinderCommand(sublime_plugin.WindowCommand): 
 
-	s = None
-	binderList = []
+	binders = None
+	newBinderList = []
 
 	def run(self):
 
-		self.binderList = []
+		# reset
+		self.newBinderList = []
 
 		self.choose_binder()
 
 	def choose_binder(self):
 
 		# Gather all binder names
-		self.s = sublime.load_settings('FileBinder.sublime-settings').get('binders')
+		self.binders = sublime.load_settings('FileBinder.sublime-settings').get('binders')
 		binderNameList = []
-		for item in self.s: binderNameList.append(item['name'])
+		for item in self.binders: binderNameList.append(item['name'])
 
 		# Choose your binder
 		if len(binderNameList) > 0:
@@ -91,11 +90,11 @@ class RemoveFileBinderCommand(sublime_plugin.WindowCommand):
 		if not index == -1:
 
 			# Gather all binder but the one to remove
-			self.s = sublime.load_settings('FileBinder.sublime-settings').get('binders')
-			for i, item in enumerate(self.s):
+			self.binders = sublime.load_settings('FileBinder.sublime-settings').get('binders')
+			for i, item in enumerate(self.binders):
 				if i != index:
-					self.binderList.append(item)
+					self.newBinderList.append(item)
 
 			# Save them all
-			sublime.load_settings('FileBinder.sublime-settings').set('binders', self.binderList)
+			sublime.load_settings('FileBinder.sublime-settings').set('binders', self.newBinderList)
 			sublime.save_settings('FileBinder.sublime-settings')
