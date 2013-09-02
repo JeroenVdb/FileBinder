@@ -1,15 +1,19 @@
-import sublime, sublime_plugin
+import sublime, sublime_plugin, json
 
 # Open binder
 class FileBinderCommand(sublime_plugin.WindowCommand):
 
 	binders = None
+	settings = None
 
 	def run(self):
 
 		self.choose_binder()
 
 	def choose_binder(self):
+
+		# Settings
+		self.settings = sublime.load_settings('FileBinder.sublime-settings').get('settings')
 
 		# Gather all binder names
 		self.binders = sublime.load_settings('FileBinder.sublime-settings').get('binders')
@@ -26,9 +30,18 @@ class FileBinderCommand(sublime_plugin.WindowCommand):
 	def callback_choose_binder(self, index):
 
 		if not index == -1:
+			
+			if (self.settings['remember_groups']):
+				self.window.set_layout(self.binders[index]['layout'])
 
 			for item in self.binders[index]['files']:
-				self.window.open_file(item['path'])
+				if 'path' in item:
+					if (self.settings['remember_groups']):
+						self.window.focus_group(item['group'])
+					self.window.open_file(item['path'])
+				else:
+					self.window.open_file(item) # deprecated
+
 
 # Add binder
 class AddFileBinderCommand(sublime_plugin.WindowCommand):
@@ -56,9 +69,10 @@ class AddFileBinderCommand(sublime_plugin.WindowCommand):
 
 		# Extend newBinderList with new binder
 		for view in self.window.views():
-			self.newPathsList.append({"path": view.file_name() , "pane": "5"})
+			(group, index) = self.window.get_view_index(view)
+			self.newPathsList.append({"path": view.file_name() , "group": group})
 
-		jsonStr = {"name": "" + input + "", "description": "", "files": self.newPathsList}
+		jsonStr = {"name": "" + input + "", "description": "", "files": self.newPathsList, "layout": self.window.get_layout()}
 		self.newBinderList.append(jsonStr)
 
 		# Save them all
