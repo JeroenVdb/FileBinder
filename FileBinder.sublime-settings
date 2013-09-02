@@ -1,7 +1,11 @@
 {
     "binders":
-	    [
-	        
-	    ]
+    [
+        
+    ],
+	"settings":
+	{
+		"remember_groups": true
+	}
 		
 }
