@@ -65,8 +65,6 @@ class AddFileBinderCommand(sublime_plugin.WindowCommand):
 		for item in self.binders:
 			self.newBinderList.append(item)
 
-		print(self.window.views())
-
 		# Extend newBinderList with new binder
 		for view in self.window.views():
 			(group, index) = self.window.get_view_index(view)
@@ -78,6 +76,53 @@ class AddFileBinderCommand(sublime_plugin.WindowCommand):
 		# Save them all
 		sublime.load_settings('FileBinder.sublime-settings').set('binders', self.newBinderList)
 		sublime.save_settings('FileBinder.sublime-settings')
+
+# Update binder
+class UpdateFileBinderCommand(sublime_plugin.WindowCommand): 
+
+	binders = None
+	# newBinderList = []
+	newPathsList = []
+
+	def run(self):
+
+		# reset
+		self.newPathsList = []
+
+		self.choose_binder()
+
+	def choose_binder(self):
+
+		# Gather all binder names
+		self.binders = sublime.load_settings('FileBinder.sublime-settings').get('binders')
+		binderNameList = []
+		for item in self.binders: binderNameList.append(item['name'])
+
+		# Choose your binder
+		if len(binderNameList) > 0:
+			self.window.show_quick_panel(binderNameList, self.callback_choose_binder)
+		else:
+			self.window.show_quick_panel(["You dont have any binders yet"], None)
+
+	def callback_choose_binder(self, index):
+
+		if not index == -1:
+
+			# Get the new files
+			for view in self.window.views():
+				(group, group_index) = self.window.get_view_index(view)
+				self.newPathsList.append({"path": view.file_name() , "group": group})
+
+			# Gather all binders
+			self.binders = sublime.load_settings('FileBinder.sublime-settings').get('binders')
+			
+			# Update the files
+			self.binders[index]['files'][:] = []
+			self.binders[index]['files'].append(self.newPathsList)
+
+			# Save them all
+			sublime.load_settings('FileBinder.sublime-settings').set('binders', self.binders)
+			sublime.save_settings('FileBinder.sublime-settings')
 
 # Remove binder
 class RemoveFileBinderCommand(sublime_plugin.WindowCommand): 
