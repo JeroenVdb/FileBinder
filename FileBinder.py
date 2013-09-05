@@ -28,12 +28,12 @@ class FileBinderCommand(sublime_plugin.WindowCommand):
 			self.binder.append("Name: " + item['name'])
 
 			# Show number of files
-			if (self.settings['show_number_of_files']):
+			if (self.settings.get('show_number_of_files')):
 				numberOfFiles = len(item['files'])
 				self.binder.append(str(numberOfFiles) + " files")
 
 			# Show file path teaser
-			if (self.settings['show_path_teaser']):
+			if (self.settings.get("show_path_teaser", False)):
 				self.binder.append(item['files'][0]['path'])
 				self.binder.append(item['files'][1]['path'])
 				self.binder.append(item['files'][2]['path'])
@@ -50,12 +50,12 @@ class FileBinderCommand(sublime_plugin.WindowCommand):
 
 		if not index == -1:
 			
-			if (self.settings['remember_groups']):
+			if (self.settings.get('remember_groups')):
 				self.window.set_layout(self.binders[index]['layout'])
 
 			for item in self.binders[index]['files']:
 				if 'path' in item:
-					if (self.settings['remember_groups']):
+					if (self.settings.get('remember_groups')):
 						self.window.focus_group(item['group'])
 					self.window.open_file(item['path'])
 				else:
