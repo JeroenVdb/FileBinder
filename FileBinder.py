@@ -1,8 +1,9 @@
-import sublime, sublime_plugin, json
+import sublime, sublime_plugin, json, string
 
 # Open binder
 class FileBinderCommand(sublime_plugin.WindowCommand):
 
+	binder = []
 	binders = None
 	settings = None
 
@@ -15,11 +16,29 @@ class FileBinderCommand(sublime_plugin.WindowCommand):
 		# Settings
 		self.settings = sublime.load_settings('FileBinder.sublime-settings').get('settings')
 
-		# Gather all binder names
+		# Gather all binder information
 		self.binders = sublime.load_settings('FileBinder.sublime-settings').get('binders')
 		binderNameList = []
 		for item in self.binders:
-			binderNameList.append(item['name'])
+
+			# Reset binder
+			self.binder = []
+			
+			# Name
+			self.binder.append("Name: " + item['name'])
+
+			# Show number of files
+			if (self.settings['show_number_of_files']):
+				numberOfFiles = len(item['files'])
+				self.binder.append(str(numberOfFiles) + " files")
+
+			# Show file path teaser
+			if (self.settings['show_path_teaser']):
+				self.binder.append(item['files'][0]['path'])
+				self.binder.append(item['files'][1]['path'])
+				self.binder.append(item['files'][2]['path'])
+			
+			binderNameList.append(self.binder)
 
 		# Choose your binder
 		if len(binderNameList) > 0:
