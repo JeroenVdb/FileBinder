@@ -28,7 +28,7 @@ class FileBinderCommand(sublime_plugin.WindowCommand):
 			self.binder.append("Name: " + item['name'])
 
 			# Show number of files
-			if (self.settings.get('show_number_of_files')):
+			if (self.settings.get("show_number_of_files", False)):
 				numberOfFiles = len(item['files'])
 				self.binder.append(str(numberOfFiles) + " files")
 
