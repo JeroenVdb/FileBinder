@@ -34,9 +34,8 @@ class FileBinderCommand(sublime_plugin.WindowCommand):
 
 			# Show file path teaser
 			if (self.settings.get("show_path_teaser", False)):
-				self.binder.append(item['files'][0]['path'])
-				self.binder.append(item['files'][1]['path'])
-				self.binder.append(item['files'][2]['path'])
+				for i in range(0, 3):
+					self.binder.append(item['files'][i]['path'])
 			
 			binderNameList.append(self.binder)
 
@@ -86,8 +85,9 @@ class AddFileBinderCommand(sublime_plugin.WindowCommand):
 
 		# Extend newBinderList with new binder
 		for view in self.window.views():
-			(group, index) = self.window.get_view_index(view)
-			self.newPathsList.append({"path": view.file_name() , "group": group})
+			if (view.file_name() is not None):
+				(group, index) = self.window.get_view_index(view)
+				self.newPathsList.append({"path": view.file_name() , "group": group})
 
 		jsonStr = {"name": "" + input + "", "description": "", "files": self.newPathsList, "layout": self.window.get_layout()}
 		self.newBinderList.append(jsonStr)
