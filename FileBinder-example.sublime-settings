@@ -1,0 +1,52 @@
+{
+	"binders":
+	[
+		{
+			"description": "",
+			"files":
+			[
+				{
+					"group": 0,
+					"path": "C:\\sites\\Test\\home.html"
+				},
+				{
+					"group": 0,
+					"path": "C:\\sites\\footer.html"
+				},
+				{
+					"group": 0,
+					"path": "C:\\sites\\base.html"
+				}
+			],
+			"layout":
+			{
+				"cells":
+				[
+					[
+						0.0,
+						0.0,
+						1.0,
+						1.0
+					]
+				],
+				"cols":
+				[
+					0.0,
+					1.0
+				],
+				"rows":
+				[
+					0.0,
+					1.0
+				]
+			},
+			"name": "All layout files"
+		}
+	],
+	"settings":
+	{
+		"remember_groups": true,
+		"show_number_of_files": true,
+		"show_path_teaser": true
+	}
+}
