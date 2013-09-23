@@ -34,9 +34,15 @@ class FileBinderCommand(sublime_plugin.WindowCommand):
 
 			# Show file path teaser
 			if (self.settings.get("show_path_teaser", False)):
-				for i in range(0, 3):
+				numberOfFiles = len(item['files'])
+				maxRange = 3 if numberOfFiles >= 3 else numberOfFiles
+
+				for i in range(0, maxRange):
 					self.binder.append(item['files'][i]['path'])
-			
+
+				if (numberOfFiles > 3):
+					self.binder.append("...")
+
 			binderNameList.append(self.binder)
 
 		# Choose your binder
