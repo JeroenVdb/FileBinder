@@ -1,13 +1,14 @@
 {
     "binders":
     [
-        
+
     ],
 	"settings":
 	{
 		"remember_groups": true,
 		"show_number_of_files": true,
-		"show_path_teaser": true
+		"show_path_teaser": true,
+		"close_other_files": false
 	}
-		
+
 }

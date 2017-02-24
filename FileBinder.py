@@ -23,7 +23,7 @@ class FileBinderCommand(sublime_plugin.WindowCommand):
 
 			# Reset binder
 			self.binder = []
-			
+
 			# Name
 			self.binder.append(item['name'])
 
@@ -54,9 +54,13 @@ class FileBinderCommand(sublime_plugin.WindowCommand):
 	def callback_choose_binder(self, index):
 
 		if not index == -1:
-			
+
 			if (self.settings.get('remember_groups')):
 				self.window.set_layout(self.binders[index]['layout'])
+
+			if (self.settings.get('close_other_files')):
+				for view in self.window.views():
+					view.close()
 
 			for item in self.binders[index]['files']:
 				if 'path' in item:
@@ -73,7 +77,7 @@ class AddFileBinderCommand(sublime_plugin.WindowCommand):
 	binders = None
 	newBinderList = []
 	newPathsList = []
-	
+
 	def run(self):
 
 		# reset
@@ -103,7 +107,7 @@ class AddFileBinderCommand(sublime_plugin.WindowCommand):
 		sublime.save_settings('FileBinder.sublime-settings')
 
 # Update binder
-class UpdateFileBinderCommand(sublime_plugin.WindowCommand): 
+class UpdateFileBinderCommand(sublime_plugin.WindowCommand):
 
 	binders = None
 	# newBinderList = []
@@ -140,7 +144,7 @@ class UpdateFileBinderCommand(sublime_plugin.WindowCommand):
 
 			# Gather all binders
 			self.binders = sublime.load_settings('FileBinder.sublime-settings').get('binders')
-			
+
 			# Update the files
 			self.binders[index]['files'][:] = []
 			self.binders[index]['files'].append(self.newPathsList)
@@ -150,7 +154,7 @@ class UpdateFileBinderCommand(sublime_plugin.WindowCommand):
 			sublime.save_settings('FileBinder.sublime-settings')
 
 # Remove binder
-class RemoveFileBinderCommand(sublime_plugin.WindowCommand): 
+class RemoveFileBinderCommand(sublime_plugin.WindowCommand):
 
 	binders = None
 	newBinderList = []
