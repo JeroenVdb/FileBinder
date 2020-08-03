@@ -147,7 +147,7 @@ class UpdateFileBinderCommand(sublime_plugin.WindowCommand):
 
 			# Update the files
 			self.binders[index]['files'][:] = []
-			self.binders[index]['files'].append(self.newPathsList)
+			self.binders[index]['files'] = self.newPathsList
 
 			# Save them all
 			sublime.load_settings('FileBinder.sublime-settings').set('binders', self.binders)
